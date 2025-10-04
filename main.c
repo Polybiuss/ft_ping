@@ -56,7 +56,7 @@ int main() {
     icmp->checksum = 0;
     icmp->checksum = icmp_checksum(packet, sizeof(struct icmphdr));
 
-    if (sendto(sock, packet, sizeof(struct icmphdr), 0,
+    if (sendto(sock, packet, sizeof(packet), 0,
             (struct sockaddr *)&addr, sizeof(addr)) < 0) {
                 perror("sendto");
                 exit(1);
@@ -64,7 +64,7 @@ int main() {
     printf("ICMP Echo request send to 8.8.8.8\n");
 
     addr_len = sizeof(addr);
-    if (recvfrom(sock, packet, PACKET_SIZE, 0,
+    if (recvfrom(sock, packet, sizeof(packet), 0,
             (struct sockaddr *)&addr, &addr_len) < 0) {
                 perror("recvfrom");
                 exit(1);
