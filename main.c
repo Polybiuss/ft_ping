@@ -38,7 +38,7 @@ int main() {
     struct icmphdr *icmp;
     socklen_t addr_len;
 
-    sock = socket(AF_INET, SOCK_RAW, IPPROTO_RAW);
+    sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
     if (sock < 0) {
         perror("socket");
         exit(1);
@@ -56,20 +56,21 @@ int main() {
     icmp->checksum = 0;
     icmp->checksum = icmp_checksum(packet, sizeof(struct icmphdr));
 
-    if (sendto(sock, packet, sizeof(packet), 0,
+    if (sendto(sock, packet, sizeof(struct icmphdr), 0,
             (struct sockaddr *)&addr, sizeof(addr)) < 0) {
                 perror("sendto");
                 exit(1);
             }
     printf("ICMP Echo request send to 8.8.8.8\n");
-
+    
     addr_len = sizeof(addr);
-    if (recvfrom(sock, packet, sizeof(packet), 0,
-            (struct sockaddr *)&addr, &addr_len) < 0) {
-                perror("recvfrom");
-                exit(1);
-            }
-    printf("ICMP Echo Reply received from 8.8.8.8\n");
+    if (recvfrom(sock, packet, PACKET_SIZE, 0,
+                (struct sockaddr *)&addr, &addr_len) < 0) 
+                {
+                    perror("recvfrom");
+                    exit(1);
+                }
+        printf("ICMP Echo Reply received from 8.8.8.8\n");
 
     icmp = (struct icmphdr *)packet;
     uint16_t recv_checksum = icmp->checksum;
