@@ -56,7 +56,7 @@ int main (void) {
     int seq = 0;
 
     if (getuid() != 0) {
-        fprintf(stderr, "Warning: raw sockets require toot (run with sudo)\n");
+        fprintf(stderr, "Warning: raw sockets require root (run with sudo)\n");
     }
 
     sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
