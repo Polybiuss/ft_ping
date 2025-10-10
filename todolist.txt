@@ -1,3 +1,6 @@
+sudo tcpdump -i eth0 -vv icmp :
+ commande importante qui permet de voir plus precisemment ce qui est envoyer
+
 -f / --flood :
     pas de limite sur le nombre d'envoi d'icmp echo (de base 1 icmp/s)
     -f ne montre rien jusqu'a qu'il soit arreter par ^C ou par un autre flag
@@ -53,10 +56,16 @@
     plusieurs choix de syntaxe possible :
     -sNUMBER / -s NUMBER
     --size=NUMBER / --size NUMBER
--T :
+-T NUMBER / --tos=NUMBER:
     definie le type of service , gere les priorite du ipv4 dans le passage des table de routage jusqu'a l'ip
     valeur comprise entre 0 et 255
--ttl :
-
+    plusieurs choix possible de syntaxe:
+    -TNUMBER / T NUMBER
+    --tos=NUMBER / --tos NUMBER
+--ttl=NUMBER :
+    definie le nombre de saut possible avant la fin de vie du icmp
+    plusieurs choix possible de syntaxe :
+    --ttl=NUMBER / --ttl NUMBER
 --ip-timastamp :
+    
 
