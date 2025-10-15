@@ -1,5 +1,9 @@
 sudo tcpdump -i eth0 -vv icmp :
  commande importante qui permet de voir plus precisemment ce qui est envoyer
+ip link show :
+    montre les interface reseau disponible
+traceroute <ip> :
+montrer tous les router par ou passe une requete avant d'arriver a l'ip donner
 
 -f / --flood :
     pas de limite sur le nombre d'envoi d'icmp echo (de base 1 icmp/s)
@@ -8,9 +12,30 @@ sudo tcpdump -i eth0 -vv icmp :
     resultat : 
     190 packets transmitted, 190 packets received, 0% packet loss
     round-trip min/avg/max/stddev = 0.012/0.033/0.116/0.000 ms
--l :
-    // a checker
+-l NUMBER, --preload=NUMBER :
+    ajuste la taille de la memoire tampon dans le kernel pour stocker le icmp ECHO
+    avant envoi si la memoire tampon est trop petite plusieurs erreurs
+    peuvent en decouler sur la fonction sendto (ENOBUFS, EMSGSIZE, EAGAIN)
+    pour la taille max nous devont prendre en compte plusieurs parametres:
+    - la taille max d'un ipv4 est de 65535 octets
+    - le parametres -l prends en pour le buffer :
+        - la taille de l'en-tete IP (8 octets sans options) +
+        - la taille de l'en-tete ICMP (20 octets) +
+        - la taille du paquet de donnees arbitraires (payload ICMP)
+        - nous pouvons prendre en compte un marge pour de la securite a cas ou
+    - la taille donne peut etre reduite ou bien arrondi en fonctions 
+de certaines limite systemes ex: wmem_max (maximum send socket buffer size in bytes)
+nous ne pouvons exceder cette valeur a moins de la changer
+    pour gerer ce parametre nous pouvons utiliser
+setsockopt SO_SNDBUF
+- cat /proc/sys/net/core/wmem_max
+- cat /proc/sys/net/core/wmem_default
+le commande a plusieurs choix syntaxiques:
+    -l NUMBER / -lNUMBER
+    --preload=NUMBER / --preload NUMBER
 -n :
+    permet de ne effectuer de resolution de nom c-a-d en donner une ip
+    il ne vas pas chercher le nom de domaine permet de gagner du temps sur le requetes
     // achecker
 -w N/ --timeout=N:
     stop le programme apres N second , la valeur est en uint!!!
@@ -66,6 +91,9 @@ sudo tcpdump -i eth0 -vv icmp :
     definie le nombre de saut possible avant la fin de vie du icmp
     plusieurs choix possible de syntaxe :
     --ttl=NUMBER / --ttl NUMBER
---ip-timastamp :
-    
-
+--ip-timestamp=FLAG (tsonly | tsaddr):
+    donne le timestamp du retour d'un icmp echo reply et aussi son ip demander avec tsaddr
+    la plupart des routeurs modernes ignore ceci ou le bloque
+    ajout d'options dans le header ip (aggrandi sa taille) 
+-v / --verbose :
+    // a checker
