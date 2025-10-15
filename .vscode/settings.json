@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "features.h": "c",
-        "in.h": "c"
+        "in.h": "c",
+        "stdlib.h": "c"
     }
 }

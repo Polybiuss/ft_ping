@@ -15,4 +15,14 @@
 # define NAME_PROG "ft_ping"
 # define MISS_H_OPE "missing host operand"
 
+// -v -? -f -l -n -W -w -p -r -s -T
+
+// --verbose --help --flood --preload --numeric --timeout
+// --linger --pattern --ignore-routing --size --tos 
+// --ttl --ip-timestamp
+typedef struct t_ping{
+    char *dns;
+    char
+}s_ping;
+
 #endif
