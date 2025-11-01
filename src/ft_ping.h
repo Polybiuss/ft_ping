@@ -11,6 +11,8 @@
 # include <sys/socket.h>
 # include <netinet/ip.h>
 # include <netinet/ip_icmp.h>
+# include <netdb.h>
+# include <netinet/in.h>
 
 # define NAME_PROG "ft_ping"
 # define MISS_H_OPE "missing host operand"
@@ -22,7 +24,6 @@
 // --ttl --ip-timestamp
 typedef struct t_ping{
     char *dns;
-    char
-}s_ping;
+} s_ping;
 
 #endif
