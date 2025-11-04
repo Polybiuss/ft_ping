@@ -2,8 +2,12 @@ NAME = ft_ping
 LIB = libft.a
 LIB_DIR = libft
 SRC_DIR = src
+SRC_PAR = $(SRC_DIR)/parsing
 
 SRC = $(SRC_DIR)/main.c	\
+	$(SRC_PAR)/valid_host.c	\
+	$(SRC_PAR)/valid_arg.c	\
+
 
 OBJ_DIR = obj
 
